@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rental Analysis — 12037 Bracco Street, Winter Garden</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --teal:#008C82;
+  --teal-deep:#00635C;
+  --gold:#C9A227;
+  --charcoal:#1A1A1A;
+  --body:#1F1F1F;
+  --muted:#5A5651;
+  --strong:#0F0F0F;
+  --rule:#E2DED7;
+  --paper:#FBFAF8;
+  --panel:#F4F2EE;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--body);
+  font-family:'Jost',system-ui,sans-serif;
+  font-weight:400;
+  font-size:17px;
+  line-height:1.65;
+}
+.wrap{max-width:820px;margin:0 auto;padding:0 22px 80px}
+h1,h2,h3{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;color:var(--charcoal);line-height:1.2;margin:0}
+h1{font-size:2.5rem;letter-spacing:.01em}
+h2{font-size:1.85rem;margin:54px 0 14px}
+h3{font-size:1.3rem;margin:30px 0 8px}
+p{margin:0 0 16px}
+strong{font-weight:600;color:var(--strong)}
+a{color:var(--teal-deep)}
+
+/* Masthead */
+.masthead{border-top:5px solid var(--teal);background:#fff;padding:30px 22px 26px;margin-bottom:0}
+.masthead-inner{max-width:820px;margin:0 auto}
+.mark{display:flex;align-items:center;gap:12px;margin-bottom:22px}
+.mark .v{width:40px;height:40px;border-radius:50%;background:var(--teal);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;flex:none}
+.mark .name{font-family:'Jost',sans-serif;font-weight:500;letter-spacing:.14em;font-size:.78rem;color:var(--muted);text-transform:uppercase}
+.kicker{font-size:.84rem;letter-spacing:.1em;color:var(--teal-deep);font-weight:500;margin-bottom:8px;text-transform:uppercase}
+.sub{color:var(--muted);font-size:.97rem;margin-top:8px}
+
+/* Recommendation banner */
+.rec{background:var(--charcoal);color:#fff;border-radius:14px;padding:30px 28px;margin:34px 0 8px}
+.rec h2{color:#fff;margin:0 0 20px;font-size:1.6rem}
+.rec-grid{display:flex;flex-wrap:wrap;gap:14px}
+.rec-cell{flex:1 1 170px;background:rgba(255,255,255,.07);border-radius:10px;padding:16px 18px;border-left:3px solid var(--gold)}
+.rec-cell.primary{border-left-color:var(--teal);background:rgba(0,140,130,.22)}
+.rec-lab{font-size:.76rem;letter-spacing:.1em;color:#D8D4CC;text-transform:uppercase;margin-bottom:5px}
+.rec-num{font-family:'Cormorant Garamond',serif;font-size:2.1rem;font-weight:600;line-height:1}
+.rec-note{font-size:.88rem;color:#CFCBC2;margin-top:6px;line-height:1.45}
+.rec-foot{margin:20px 0 0;font-size:.95rem;color:#E6E3DC}
+
+/* Fact strip */
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:12px;overflow:hidden;margin:26px 0}
+.fact{background:#fff;padding:14px 16px}
+.fact dt{font-size:.74rem;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;margin-bottom:3px}
+.fact dd{margin:0;font-weight:500;color:var(--strong);font-size:1.02rem}
+
+/* Chart */
+.chart{background:#fff;border:1px solid var(--rule);border-radius:12px;padding:24px 22px;margin:24px 0}
+.chart-title{font-weight:500;color:var(--strong);margin-bottom:4px}
+.chart-sub{font-size:.88rem;color:var(--muted);margin-bottom:20px}
+.row{display:grid;grid-template-columns:132px 1fr 92px;align-items:center;gap:10px;margin-bottom:11px}
+.row .lbl{font-size:.85rem;color:var(--body);text-align:right;line-height:1.25}
+.row .lbl small{display:block;color:var(--muted);font-size:.76rem}
+.track{background:var(--panel);border-radius:4px;height:24px;position:relative;overflow:hidden}
+.bar{height:100%;background:var(--teal);border-radius:4px}
+.bar.slow{background:#9AB3B0}
+.bar.unleased{background:#C97B5B}
+.bar.subject{background:var(--gold)}
+.row .val{font-size:.86rem;color:var(--muted)}
+.row .val b{color:var(--strong);font-weight:600}
+
+/* Tables */
+.tbl-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:16px 0}
+table{border-collapse:collapse;width:100%;font-size:.92rem;min-width:560px}
+th{text-align:left;font-weight:500;font-size:.76rem;letter-spacing:.07em;color:var(--muted);text-transform:uppercase;border-bottom:2px solid var(--rule);padding:9px 10px;white-space:nowrap}
+td{padding:10px;border-bottom:1px solid var(--rule);vertical-align:top}
+tr.subject-row td{background:#FFF9E8;font-weight:500;color:var(--strong)}
+tr.warn-row td{background:#FBF0EA}
+td.num,th.num{text-align:right;white-space:nowrap}
+tfoot td{font-weight:600;color:var(--strong);border-top:2px solid var(--rule);border-bottom:none}
+
+/* Disclosure */
+details{border:1px solid var(--rule);border-radius:12px;background:#fff;margin:16px 0;overflow:hidden}
+summary{cursor:pointer;padding:15px 20px;font-weight:500;color:var(--teal-deep);list-style:none;display:flex;justify-content:space-between;align-items:center;gap:14px}
+summary::-webkit-details-marker{display:none}
+summary:hover{background:var(--panel)}
+summary:focus-visible{outline:2px solid var(--teal);outline-offset:-2px}
+summary .plus{flex:none;width:22px;height:22px;border-radius:50%;border:1px solid var(--teal);color:var(--teal);display:flex;align-items:center;justify-content:center;font-size:.95rem;line-height:1}
+details[open] summary{border-bottom:1px solid var(--rule)}
+details[open] summary .plus::after{content:'–'}
+summary .plus::after{content:'+'}
+.details-body{padding:6px 20px 20px}
+.details-body p:last-child{margin-bottom:0}
+
+/* Callouts */
+.note{border-left:3px solid var(--teal);background:#fff;border-radius:0 10px 10px 0;padding:18px 22px;margin:24px 0}
+.note p:last-child{margin-bottom:0}
+.note .h{font-weight:600;color:var(--strong);display:block;margin-bottom:6px}
+.warn{border-left-color:#C97B5B}
+
+ul{margin:0 0 16px;padding-left:22px}
+li{margin-bottom:9px}
+
+.divider{height:1px;background:var(--rule);border:0;margin:52px 0 0}
+
+footer{margin-top:46px;font-size:.92rem;color:var(--muted)}
+footer .sig{font-family:'Cormorant Garamond',serif;font-size:1.35rem;color:var(--charcoal);font-weight:600}
+footer .tag{color:var(--teal-deep);font-style:italic;margin-top:4px}
+.fineprint{font-size:.8rem;color:var(--muted);line-height:1.5;margin-top:26px;padding-top:18px;border-top:1px solid var(--rule)}
+
+@media (max-width:640px){
+  body{font-size:16px}
+  h1{font-size:1.95rem}
+  h2{font-size:1.5rem}
+  .row{grid-template-columns:100px 1fr 74px;gap:8px}
+  .row .lbl{font-size:.78rem}
+  .rec{padding:24px 20px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="mark">
+      <div class="v">V</div>
+      <div class="name">Verandah Properties, LLC</div>
+    </div>
+    <div class="kicker">Rental Analysis</div>
+    <h1>12037 Bracco Street</h1>
+    <div class="sub">Highland Ridge &middot; Winter Garden, FL 34787 &middot; Prepared September 12, 2026</div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="rec">
+    <h2>What we recommend</h2>
+    <div class="rec-grid">
+      <div class="rec-cell primary">
+        <div class="rec-lab">List at</div>
+        <div class="rec-num">$2,450</div>
+        <div class="rec-note">$1.46 per square foot</div>
+      </div>
+      <div class="rec-cell">
+        <div class="rec-lab">Day 5 checkpoint</div>
+        <div class="rec-num">$2,375</div>
+        <div class="rec-note">If we cannot yet choose from a pool</div>
+      </div>
+      <div class="rec-cell">
+        <div class="rec-lab">Next step</div>
+        <div class="rec-num">$2,295</div>
+        <div class="rec-note">A step, not a bottom</div>
+      </div>
+    </div>
+    <p class="rec-foot">The comparable evidence supports <strong style="color:#fff">$2,450 to $2,550</strong>. We recommend launching at the lower end of that range, and including grounds care in the rent.</p>
+  </div>
+
+  <dl class="facts">
+    <div class="fact"><dt>Bedrooms / Baths</dt><dd>3 / 2.5</dd></div>
+    <div class="fact"><dt>Living area</dt><dd>1,678 sq ft</dd></div>
+    <div class="fact"><dt>Year built</dt><dd>2022</dd></div>
+    <div class="fact"><dt>Builder / plan</dt><dd>Meritage &middot; Austen</dd></div>
+    <div class="fact"><dt>Garage</dt><dd>2-car, rear entry</dd></div>
+    <div class="fact"><dt>Lot</dt><dd>4,250 sq ft</dd></div>
+    <div class="fact"><dt>Upstairs</dt><dd>3 bedrooms + loft</dd></div>
+    <div class="fact"><dt>HOA dues</dt><dd>$100 / month</dd></div>
+  </dl>
+
+  <h2>The single most important fact</h2>
+
+  <p>At 1,678 square feet, this investment property is the <strong>smallest floor plan Meritage built in Highland Ridge</strong>. The community holds 240 homesites ranging from 1,678 to 2,424 square feet. Nothing here is smaller.</p>
+
+  <p>That cuts two ways, and both matter to the pricing decision.</p>
+
+  <p>It works against us on total rent, because rent is bought and sold by the square foot and there are fewer of them to sell. It works <em>for</em> us on speed, because it produces the lowest monthly rent in the neighborhood. A resident who wants Highland Ridge, Water Spring Elementary and a ten-minute drive to Disney's western gateway, but cannot carry $2,850 a month, has exactly one option in this community — and it is yours. That is a real advantage, and it is the advantage we intend to price into.</p>
+
+  <p>It also means there is no perfect comparable. Every leased property we can measure against is larger. So the analysis below adjusts each one down to your size rather than pretending any of them is a twin.</p>
+
+  <h2>What has actually leased here</h2>
+
+  <p>Five properties in Highland Ridge leased between June 5 and August 19 of this year. Every one of them leased at its final asking price, in an average of 46 days. That tells us the market here is not haggling — it is either accepting a price or ignoring it.</p>
+
+  <div class="tbl-scroll">
+  <table>
+    <thead>
+      <tr>
+        <th>Address</th><th>Bed / Bath</th><th class="num">Sq Ft</th><th class="num">Leased</th><th class="num">Per sq ft</th><th class="num">Days</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>12079 Bracco St</td><td>3 / 2.5</td><td class="num">1,770</td><td class="num">$2,600</td><td class="num">$1.47</td><td class="num">29</td></tr>
+      <tr><td>14387 Braemar St</td><td>4 / 2.5</td><td class="num">2,094</td><td class="num">$2,950</td><td class="num">$1.41</td><td class="num">53</td></tr>
+      <tr><td>14384 Braemar St</td><td>3 / 2.5</td><td class="num">2,000</td><td class="num">$2,800</td><td class="num">$1.40</td><td class="num">47</td></tr>
+      <tr><td>11965 Bracco St</td><td>4 / 3</td><td class="num">2,424</td><td class="num">$3,400</td><td class="num">$1.40</td><td class="num">93</td></tr>
+      <tr><td>14286 Braemar St</td><td>4 / 2.5</td><td class="num">2,114</td><td class="num">$2,850</td><td class="num">$1.35</td><td class="num">6</td></tr>
+      <tr class="warn-row"><td>14340 Braemar St</td><td>4 / 2.5</td><td class="num">2,062</td><td class="num">$3,295 ask</td><td class="num">$1.60</td><td class="num">243</td></tr>
+    </tbody>
+    <tfoot>
+      <tr><td colspan="3">Five leased &mdash; average</td><td class="num">$2,920</td><td class="num">$1.41</td><td class="num">46</td></tr>
+    </tfoot>
+  </table>
+  </div>
+
+  <p>The bottom row is not a comparable. It is a warning, and we will come back to it.</p>
+
+  <details>
+    <summary><span>Full comparable detail, including each property's leasing history</span><span class="plus" aria-hidden="true"></span></summary>
+    <div class="details-body">
+      <h3>12079 Bracco Street &mdash; the closest measurement we have</h3>
+      <p>3 bed / 2.5 bath, 1,770 sq ft, built 2023. Listed June 15 at $2,600 and leased July 14 at full asking price, 29 days. Ninety-two square feet larger than yours and on the same street. This is the anchor for the entire analysis.</p>
+      <p>Its own history is the lesson. In 2024 the same property launched at $2,800, cut to $2,600 five weeks later, went off market, came back, and finally leased on day 71 &mdash; at $2,600. Two years later it launched at $2,600 and leased on day 29. Same rent. Forty-two fewer vacant days, worth roughly <strong>$3,600</strong> to that owner. The only thing that changed was the opening number.</p>
+
+      <h3>14286 Braemar Street &mdash; the fastest result in the set</h3>
+      <p>4 bed / 2.5 bath, 2,114 sq ft, built 2023. Leased at $2,850 in six days. It was priced at $1.35 per square foot, the lowest per-foot price of any property in the set, and grounds care was included in the rent. It went under contract in three days, lost that applicant, came back, and went under contract again in three days. Two applications inside a week at the same price.</p>
+
+      <h3>14387 Braemar Street &mdash; the flat-rent story</h3>
+      <p>4 bed / 2.5 bath, 2,094 sq ft, built 2024. Leased $2,950 in 53 days at full ask. It also leased at $2,950 in 2025 and $2,750 in 2024. Rent here has not moved in two years.</p>
+
+      <h3>14384 Braemar Street &mdash; the one that went backwards</h3>
+      <p>3 bed / 2.5 bath, 2,000 sq ft, built 2023. Listed at $2,850, reduced to $2,800, leased in 47 days &mdash; with $300 off the first month on top. It leased for $2,850 back in March 2024. Two and a half years later it took less money and a concession.</p>
+
+      <h3>11965 Bracco Street &mdash; the largest, and the slowest to clear</h3>
+      <p>4 bed / 3 bath, 2,424 sq ft, built 2024. Launched May 18 at $3,600, cut to $3,400 in late July, leased August 19 &mdash; 93 days. The same property leased at $3,600 in 50 days in 2025. This year it took $200 less and 43 days longer.</p>
+
+      <h3>14340 Braemar Street &mdash; still unleased</h3>
+      <p>4 bed / 2.5 bath, 2,062 sq ft, built 2023. Currently asking $3,295 with grounds care and trash included. It has been marketed for 243 days across three separate listing attempts since November 2025, with reductions from $3,500 to $3,400 to $3,300 to $3,295. It has never leased.</p>
+      <p>Its neighbour at 14387 Braemar is virtually the same property &mdash; 32 square feet larger, one year newer &mdash; and leased at $2,950. The gap between the two is $345 a month. The 243 vacant days have already cost roughly <strong>$26,300</strong> in rent that will never be collected. Even if 14340 eventually leases at its full $3,295 ask, earning back that $26,300 at $345 a month would take <strong>more than six years</strong>.</p>
+    </div>
+  </details>
+
+  <h2>Adjusting the comparables to your size</h2>
+
+  <p>Because every comparable is larger, we measured what the market here actually pays for an additional square foot, then subtracted the difference. Across the five leased properties, each extra square foot is worth about <strong>$1.20 a month</strong>.</p>
+
+  <p>We also tested whether the fourth bedroom carries value of its own, separate from the space it occupies. In this community it does not. The three-bedroom properties earn the same per square foot as the four-bedroom properties, and slightly more. These Meritage plans carve the extra bedroom out of the same upstairs footprint rather than adding to it, and the market is paying for the footprint, not the door count. Your loft does the same work a fourth bedroom does for most residents.</p>
+
+  <div class="tbl-scroll">
+  <table>
+    <thead>
+      <tr><th>Comparable</th><th class="num">Leased</th><th class="num">Size adj.</th><th class="num">Other adj.</th><th class="num">Indicated for 12037</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>12079 Bracco (1,770 sf)</td><td class="num">$2,600</td><td class="num">&minus;$110</td><td class="num">&mdash;</td><td class="num">$2,490</td></tr>
+      <tr><td>11965 Bracco (2,424 sf)</td><td class="num">$3,400</td><td class="num">&minus;$895</td><td class="num">&minus;$50</td><td class="num">$2,455</td></tr>
+      <tr><td>14387 Braemar (2,094 sf)</td><td class="num">$2,950</td><td class="num">&minus;$499</td><td class="num">&mdash;</td><td class="num">$2,451</td></tr>
+      <tr><td>14384 Braemar (2,000 sf)</td><td class="num">$2,800</td><td class="num">&minus;$386</td><td class="num">&minus;$25</td><td class="num">$2,389</td></tr>
+      <tr><td>14286 Braemar (2,114 sf)</td><td class="num">$2,850</td><td class="num">&minus;$523</td><td class="num">&minus;$110</td><td class="num">$2,217</td></tr>
+    </tbody>
+    <tfoot>
+      <tr><td colspan="4">Median indication</td><td class="num">$2,451</td></tr>
+    </tfoot>
+  </table>
+  </div>
+
+  <p>Four of the five cluster between $2,389 and $2,490, with a median of $2,451. That is the arithmetic behind the $2,450 recommendation.</p>
+
+  <details>
+    <summary><span>How each adjustment was calculated, and where the method has limits</span><span class="plus" aria-hidden="true"></span></summary>
+    <div class="details-body">
+      <p><strong>Square footage.</strong> Rent and size across the five leased properties produce a marginal rate of $1.22 per square foot per month. We rounded to $1.20 and applied it to the difference between each comparable and your 1,678 square feet.</p>
+      <p><strong>Fourth bedroom: no adjustment.</strong> Fitting the three-bedroom and four-bedroom results separately produces effectively the same rent at the same size. There is no measurable premium for the fourth bedroom once size is accounted for.</p>
+      <p><strong>Third full bathroom.</strong> 11965 Bracco has three full baths against your two and a half. Adjusted down $50.</p>
+      <p><strong>Concessions.</strong> 14384 Braemar gave $300 off the first month, which is $25 a month across a twelve-month lease. Its achieved rent was therefore $2,775, not $2,800.</p>
+      <p><strong>Grounds care.</strong> 14286 Braemar included lawn care in the rent, a cost its owner absorbs. Adjusted down $110 to state it on the same basis as the properties that do not.</p>
+      <p><strong>Where this method is conservative.</strong> Rent per square foot rises as properties get smaller &mdash; a 1,700-square-foot property always earns more per foot than a 2,400-square-foot one. A single straight-line rate cannot capture that curve. Over a small gap it is accurate; over a large one it understates. That is why 14286 (436 square feet larger) and 11965 (746 square feet larger) produce the lowest indications in the table, and why we weight 12079 Bracco &mdash; only 92 square feet apart &mdash; most heavily. If anything, the true number sits at or a little above $2,450, not below it.</p>
+    </div>
+  </details>
+
+  <h2>Where $2,450 sits against everything that has leased</h2>
+
+  <div class="chart">
+    <div class="chart-title">Monthly rent per square foot</div>
+    <div class="chart-sub">Highland Ridge, June&ndash;September 2026. Scale begins at $1.20. Days on market in grey.</div>
+
+    <div class="row">
+      <div class="lbl">14286 Braemar<small>6 days</small></div>
+      <div class="track"><div class="bar" style="width:30%"></div></div>
+      <div class="val"><b>$1.35</b></div>
+    </div>
+    <div class="row">
+      <div class="lbl">11965 Bracco<small>93 days</small></div>
+      <div class="track"><div class="bar slow" style="width:40%"></div></div>
+      <div class="val"><b>$1.40</b></div>
+    </div>
+    <div class="row">
+      <div class="lbl">14384 Braemar<small>47 days</small></div>
+      <div class="track"><div class="bar" style="width:40%"></div></div>
+      <div class="val"><b>$1.40</b></div>
+    </div>
+    <div class="row">
+      <div class="lbl">14387 Braemar<small>53 days</small></div>
+      <div class="track"><div class="bar" style="width:42%"></div></div>
+      <div class="val"><b>$1.41</b></div>
+    </div>
+    <div class="row">
+      <div class="lbl">12037 Bracco<small>recommended</small></div>
+      <div class="track"><div class="bar subject" style="width:52%"></div></div>
+      <div class="val"><b>$1.46</b></div>
+    </div>
+    <div class="row">
+      <div class="lbl">12079 Bracco<small>29 days</small></div>
+      <div class="track"><div class="bar" style="width:54%"></div></div>
+      <div class="val"><b>$1.47</b></div>
+    </div>
+    <div class="row">
+      <div class="lbl">14340 Braemar<small>243 days, unleased</small></div>
+      <div class="track"><div class="bar unleased" style="width:80%"></div></div>
+      <div class="val"><b>$1.60</b></div>
+    </div>
+  </div>
+
+  <p>Everything that leased in Highland Ridge this summer cleared between $1.35 and $1.47 per square foot. Nothing leased above $1.47. One property has been asking $1.60 since last November and is still sitting.</p>
+
+  <p>Our recommendation places you at $1.46 &mdash; inside the proven band, just under the highest price the market has actually paid, and justified by being the smallest property in it. Each step down maps to a price the market has already accepted: $2,375 is $1.42 per foot, and $2,295 is $1.37.</p>
+
+  <h2>Why this corridor is difficult right now</h2>
+
+  <p>Highland Ridge sits on Hartzog Road in the southern edge of Horizon West, a few minutes from Disney's western entrance. It is one of the strongest rental locations in Central Florida. It is also one of the most heavily supplied, and the supply is not finished arriving.</p>
+
+  <h3>Meritage has closed out, but the corridor has not</h3>
+
+  <p>Highland Ridge itself is built out &mdash; 240 homesites, delivered 2022 through 2025, with the builder now gone. That part is finished. What has not finished is Horizon West around it. Ten or more national builders remain actively selling across the corridor: Toll Brothers, M/I Homes, Ashton Woods and Taylor Morrison inside the Ovation master plan alone, with further phases at Waterleigh, Hamlin and the Wellness Way connection into Lake County still releasing. New product a few minutes away, sold with builder incentives, continues to enter the market. A meaningful share of it is bought by investors and goes straight into the rental pool.</p>
+
+  <h3>Rental supply is being added directly on your road</h3>
+
+  <p>Flamingo Crossings Village, immediately north of Highland Ridge, holds roughly 10,440 beds of Disney program and cast housing. Alongside it, on eighty acres donated by Disney on Hartzog Road, The Michaels Organization received state permit approval in January 2026 for <strong>1,369 apartment units</strong>, more than a thousand of them income-restricted, with the first buildings scheduled to open late this year.</p>
+
+  <p>Apartments are not direct competition for a three-bedroom house with a garage and a yard. But roughly 1,400 new doors on the same road absorbs demand from the lower end of the resident pool, and some of the people who would otherwise have stretched into a house will take a new apartment instead.</p>
+
+  <h3>The sales market is feeding the rental market</h3>
+
+  <p>This is the part most owners underestimate, and you have already seen it first-hand. Your own purchase closed on October 9, 2025 at $510,000 against a $530,000 asking price, after 83 days on market, with an $18,870 seller credit attached. That is roughly seven percent below ask, on a builder's own inventory, in a community everyone wants.</p>
+
+  <p>When properties do not sell, owners rent them instead. Every one of those conversions lands in the same pool your investment property is competing in, and they arrive at unpredictable times with owners who are often willing to take less than they hoped for because they have already been disappointed once. We have watched precisely this dynamic reshape the Lake Nona corridor over the past eighteen months. Horizon West is the same story with a different exit off the 429.</p>
+
+  <details>
+    <summary><span>The demand side &mdash; why this location still works</span><span class="plus" aria-hidden="true"></span></summary>
+    <div class="details-body">
+      <p>None of the above means this is a weak location. It is the opposite, and it is why the strategy is to price into the demand rather than wait for it.</p>
+      <p><strong>Employment.</strong> Disney's western gateway on Western Way is minutes away, and the 429 connects to I-4, the Turnpike and the broader Orlando employment base without touching surface roads.</p>
+      <p><strong>Retail and services.</strong> Flamingo Crossings Town Center, Disney-owned and immediately north, anchors with Target and carries more than forty retail and dining tenants, with a further 237,000-square-foot village centre phase planned. Before it opened, this part of Horizon West had to drive to Hamlin or Windermere for groceries.</p>
+      <p><strong>Schools.</strong> Water Spring Elementary, Water Spring Middle and Horizon High School. School zoning is the single most reliable driver of family rental demand in Central Florida, and this zoning is a genuine asset.</p>
+      <p><strong>Parks.</strong> Horizon West Regional Park, 215 acres north of Hamlin, opened its first phase in early 2026, with a second phase including a splash pad and kayak launch under construction since June.</p>
+      <p>The demand is there. It is simply being asked to choose between more options than it had two years ago, and price is how it chooses.</p>
+    </div>
+  </details>
+
+  <h2>What vacancy actually costs</h2>
+
+  <p>Vacancy is the most expensive line item in rental ownership, and it is the only one that is invisible &mdash; there is no invoice for it, so it does not feel like money. It is.</p>
+
+  <p>Here is the arithmetic on asking more than $2,450. The right-hand column is how long you would need to hold the higher rent before it repays a <em>single</em> extra vacant month.</p>
+
+  <div class="tbl-scroll">
+  <table>
+    <thead>
+      <tr><th>If we ask</th><th class="num">Extra per month</th><th class="num">Months to repay one vacant month</th></tr>
+    </thead>
+    <tbody>
+      <tr class="subject-row"><td>$2,450 &mdash; recommended</td><td class="num">&mdash;</td><td class="num">&mdash;</td></tr>
+      <tr><td>$2,550</td><td class="num">$100</td><td class="num">25.5</td></tr>
+      <tr><td>$2,650</td><td class="num">$200</td><td class="num">13.3</td></tr>
+      <tr><td>$2,750</td><td class="num">$300</td><td class="num">9.2</td></tr>
+      <tr><td>$2,850</td><td class="num">$400</td><td class="num">7.1</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>A standard lease runs twelve months. At anything under a $200 monthly premium, a single extra vacant month cannot be repaid inside the lease term at all &mdash; the resident moves out before the maths catches up. And the premium only pays if you actually get it. 14340 Braemar has been chasing roughly $345 a month more than its neighbour since November, has forgone about $26,300 in rent doing it, and has not yet been paid the premium once.</p>
+
+  <div class="note warn">
+    <span class="h">The reduction trap</span>
+    <p>Listing high with a plan to reduce later sounds cautious. It is the opposite. Prospective residents watch the days-on-market counter on Zillow, and a property that has been sitting reads to them as a property with something wrong with it &mdash; so they skip past it without ever asking. Meanwhile the calendar moves against you: family relocations slow after August, and sale-to-rental conversions keep arriving through the autumn. A price that looks competitive in September looks ordinary by late October and expensive by November. Anyone who lists high intending to reduce is reducing into more competition than they started with, not less.</p>
+  </div>
+
+  <h2>How we will run the launch</h2>
+
+  <p>We do not give owners an expected time-to-lease. There is no honest way to produce that number, and a range invented to sound reassuring is worse than none. We do not have a crystal ball. We have a strategy, and it is measured rather than guessed.</p>
+
+  <p>We list at $2,450 and we measure the first five days &mdash; enquiries, showings scheduled, showings actually attended, applications started. If that activity is not strong enough for us to <strong>choose</strong> from a pool of qualified applicants, we reduce to $2,375. Not a token $25 that nobody notices, but a number that moves the property into a new set of search results and signals to the people already watching it that something changed.</p>
+
+  <p>If day five to day twelve still does not produce a pool, we step to $2,295 and keep reassessing. We want to be clear about that last figure: it is a step, not a bottom. Only the market knows where the bottom is. Our commitment is to keep reacting to what it tells us rather than digging in on a number we picked in advance.</p>
+
+  <p>The purpose of the pool is selection, not acceptance. One applicant is not a decision &mdash; it is a hope. Four applicants is a decision, and it is the only position from which we can decline the two who should be declined and still get your property leased.</p>
+
+  <h3>The four things inside our control</h3>
+
+  <ul>
+    <li><strong>Price.</strong> Decisive, and the only lever that works quickly. Everything below is a tiebreaker between two properties a resident is already considering.</li>
+    <li><strong>Grounds care included.</strong> The fastest lease in the set &mdash; six days &mdash; came with lawn care in the rent. On a 4,250-square-foot lot the yard is small and the cost is modest. We will confirm the exact monthly figure with our vendor before you commit to it. It will not rescue a wrong price, but between two similar properties at a similar rent it is the one residents pick.</li>
+    <li><strong>Flooring.</strong> Residents increasingly expect hard surfaces and choose those properties first. Your first floor is ceramic tile; the bedrooms and loft were delivered in carpet. If that carpet is original from 2022 and shows wear, replacing it before launch buys both a higher rent and a faster one. If it is clean, we present it as is.</li>
+    <li><strong>Appliances.</strong> A complete package &mdash; refrigerator, washer and dryer &mdash; is common among the properties that leased here, though it did not save the one asking $1.60 per foot. Worth having. Not worth paying for a wrong price with.</li>
+  </ul>
+
+  <p>We market unfurnished. Every property that leased in Highland Ridge this summer was unfurnished, and it is the right answer for a long-term lease in this submarket regardless &mdash; it widens the resident pool, removes an entire category of move-out dispute, and keeps your investment in the twelve-month family market rather than the short-stay one.</p>
+
+  <hr class="divider">
+
+  <h2>In summary</h2>
+
+  <p>Your investment property is the smallest floor plan in a 240-home community, on a street where five larger properties leased this summer between $1.35 and $1.47 per square foot and nothing leased above that. Adjusted to your size, those five indicate a median of $2,451.</p>
+
+  <p>Horizon West is a strong rental location that is currently absorbing a great deal of supply at once &mdash; builders still releasing across the corridor, roughly 1,400 apartment units arriving on Hartzog Road this year, and a soft sales market steadily converting would-be sellers into landlords. Your own purchase, at seven percent under ask with a seller credit, is direct evidence of that last one.</p>
+
+  <p><strong>We recommend listing at $2,450 with grounds care included, measuring hard at day five, and reducing decisively rather than waiting.</strong> The goal is not to find a resident. It is to generate enough qualified interest that we can choose the right one, and to do it before the calendar and the competition make the same rent harder to get.</p>
+
+  <p>The most expensive number in this document is not $2,450 or $2,550. It is the $26,300 sitting at 14340 Braemar Street.</p>
+
+  <footer>
+    <p>We are glad to walk through any part of this with you, and to revisit it at any point once the property is live.</p>
+    <div class="sig">Pamela Syvertson</div>
+    <div>Owner &amp; Broker &middot; Verandah Properties, LLC &middot; License CQ1048619</div>
+    <div>407-855-0331</div>
+    <div class="tag">Curating Orlando's Finest Rental Portfolio</div>
+
+    <p class="fineprint">Prepared September 12, 2026. This is an opinion of value based on comparable rental activity in Highland Ridge and the surrounding Horizon West corridor, and should not be considered an appraisal. Comparable data is drawn from Stellar MLS and is deemed reliable but not guaranteed. Rental market conditions change, and this analysis reflects conditions as of the date above. Development timelines for projects described are as reported by the developers and permitting authorities and are subject to change.</p>
+  </footer>
+
+</div>
+</body>
+</html>
